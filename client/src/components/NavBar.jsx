@@ -21,14 +21,21 @@ const NavBar = () => {
   useEffect(() => {
 
     window.addEventListener('resize', menu)
+
+    if(toggleMenu) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
   
     return () => {
       window.removeEventListener('resize', menu)
+      document.body.style.overflow = 'auto'
     }
-  }, [])
+  }, [menu, toggleMenu])
   
   return (
-    <div className='flex justify-between items-center sm:px-16 px-10' >
+    <div className='flex justify-between items-center sm:px-16 px-10 text-xl' >
         <div>
           <Link to='/'><img src={logo} alt="" className='w-24 h-24'/></Link>
         </div>
