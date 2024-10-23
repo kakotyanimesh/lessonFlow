@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react'
+import {delay, inView, motion} from 'framer-motion'
 import logo from '../assets/logo.png'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,6 +13,10 @@ const navLinks = [
 ]
 
 const NavBar = () => {
+  const navBarAnimation = {
+    initial : {opacity : 0, y : -50},
+    inView : {opacity : 1, y: 0, transition : {duration : 0.8, ease: "easeOut"}}
+  }
   const [isNavbar, setIsNavbar] = useState(window.innerWidth < 769)
   const [toggleMenu, setToggleMenu] = useState(false)
 
@@ -35,7 +40,7 @@ const NavBar = () => {
   }, [menu, toggleMenu])
   
   return (
-    <div className='flex justify-between items-center sm:px-16 px-10 text-xl' >
+    <motion.div variants={navBarAnimation} initial='initial' whileInView='inView' className='flex justify-between items-center sm:px-16 px-10 text-xl' >
         <div>
           <Link to='/'><img src={logo} alt="" className='w-24 h-24'/></Link>
         </div>
@@ -74,7 +79,7 @@ const NavBar = () => {
           )
         }
 
-    </div>
+    </motion.div>
   )
 }
 
