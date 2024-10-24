@@ -40,7 +40,7 @@ const NavBar = () => {
   }, [menu, toggleMenu])
   
   return (
-    <motion.div variants={navBarAnimation} initial='initial' whileInView='inView' className='flex justify-between items-center sm:px-16 px-10 text-xl' >
+    <motion.div variants={navBarAnimation} initial='initial' whileInView='inView' className='flex justify-between items-center  sm:px-16 px-10 text-xl' >
         <div>
           <Link to='/'><img src={logo} alt="" className='w-24 h-24'/></Link>
         </div>
@@ -54,19 +54,19 @@ const NavBar = () => {
                 </li>
               ))}
             </ul>
-              <button className='transition hover:bg-[#c5dcee] p-2 rounded-xl delay-200 border-2 border-[#cffafe]'>signin</button>
+              <Link to='/auth/signin'><button className='transition hover:bg-[#c5dcee] p-2 rounded-xl delay-200 border-2 border-[#cffafe]'>signin</button></Link>
             </>
             
           ) :
           <div className='flex gap-5'>
-            <button className='transition border-2 border-[#cffafe] hover:bg-[#c5dcee] p-2 rounded-xl delay-200'>signin</button>
+            <Link to='/auth/signin'><button className='transition hover:bg-[#c5dcee] p-2 rounded-xl delay-200 border-2 border-[#cffafe]'>signin</button></Link>
 
             <button onClick={() => setToggleMenu(!toggleMenu)}><FontAwesomeIcon icon={faBars} /></button>
           </div>
         }
         {
           isNavbar && toggleMenu && (
-            <div className='absolute bg-[#c5dcee] bottom-0 top-0 left-0 right-0 flex flex-col pt-20 space-y-4'>
+            <div className='absolute bg-[#c5dcee] bottom-0 top-0 left-0 right-0 flex flex-col h-screen items-center justify-center space-y-4'>
               <ul className='text-center space-y-4 '>
                 {navLinks.map(nav => (
                   <li key={nav.name}>

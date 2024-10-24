@@ -1,5 +1,6 @@
 import React from 'react'
 import { delay, easeIn, easeOut, inView, motion } from 'framer-motion'
+import Button from '../components/Button'
 import EduCtor from '../assets/illustrations/illustrationOne.svg'
 import AITeacher from '../assets/illustrations/aiTeacher.svg'
 import Testimonials from '../components/Testimonials'
@@ -17,7 +18,7 @@ const Home = () => {
     <div className='text-center sm:pt-48 sm:mt-7 mt-20 pb-32'>
       <motion.div variants={headerAnimation} initial='initial' whileInView='inView' className='sm:px-20 px-10  overflow-hidden'>
         <h1 className='sm:text-[64px] text-[24px]'>Streamline Your <span className='bg-gradient-to-r from-cyan-500 to-blue-700 bg-clip-text text-transparent'>Lessons</span>, Empower Your <br /> <span className='bg-gradient-to-r from-cyan-500 to-blue-700 bg-clip-text text-transparent'>Teaching</span></h1>
-        <button className='bg-gradient-to-r from-cyan-500 to-blue-700 text-white mt-10 sm:p-3 text-xs p-2 rounded-xl shadow transition delay-200 hover:text-black shadow-cyan-500'>Get Started </button>
+        <Button className='mt-10' prop={"Get started"} link='/auth/signin'  />
       </motion.div>
     <motion.div initial="initial" whileInView="inView" variants={cardFrammer} className='grid sm:grid-cols-2 mt-28 sm:mx-10 mx-5 gap-10'>
         <div className='flex sm:flex-row flex-col justify-center items-center bg-gradient-to-b from-blue-300 via-blue-200 to-[#ddeefa]  rounded-xl sm:gap-10 pb-4 sm:pb-0'>
