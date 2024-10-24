@@ -7,7 +7,7 @@ import Testimonials from '../components/Testimonials'
 
 const Home = () => {
   const headerAnimation = {
-    initial : {opacity : 0, y : -50},
+    initial : {opacity : 0, y : -20},
     inView : {opacity : 1, y: 0, transition : {duration : 1, ease: "easeOut"}}
   }
   const cardFrammer = {

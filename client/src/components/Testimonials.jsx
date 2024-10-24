@@ -14,7 +14,7 @@ const testtis = [
 
 const Testimonials = () => {
     const testiAnimation = {
-        initial : { opacity : 0, x : +50},
+        initial : { opacity : 0, x : -50},
         inView : { opacity : 1, x : 0, transition : { duration : .5, ease : 'easeIn'}}
     }
   return (

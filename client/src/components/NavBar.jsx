@@ -14,7 +14,7 @@ const navLinks = [
 
 const NavBar = () => {
   const navBarAnimation = {
-    initial : {opacity : 0, y : -50},
+    initial : {opacity : 0, y : -20},
     inView : {opacity : 1, y: 0, transition : {duration : 0.8, ease: "easeOut"}}
   }
   const [isNavbar, setIsNavbar] = useState(window.innerWidth < 769)
