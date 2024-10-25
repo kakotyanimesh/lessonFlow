@@ -9,8 +9,7 @@ const signUpObject = z.object({
                  .regex(/[a-z]/, { message: 'Password must contain at least one lowercase letter.' })
                  .regex(/[A-Z]/, { message: 'Password must contain at least one uppercase letter.' })
                  .regex(/[\W_]/, { message: 'Password must contain at least one special character (e.g., !@#$%^&*()_+).' })
-                 .regex(/[0-9]/, { message: 'Password must contain at least one number.' }),
-    fullName : z.string()
+                 .regex(/[0-9]/, { message: 'Password must contain at least one number.' })
 })
 
 const signInObject = z.object({

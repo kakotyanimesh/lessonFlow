@@ -8,10 +8,13 @@ import Layout from './components/Layout'
 import Authsignin from './pages/Authsignin'
 import AuthSignup from './pages/AuthSignup'
 import NoPage from './pages/NoPage'
+import Dashboard from './pages/Dashboard'
+import { RecoilRoot } from 'recoil'
 
 const App = () => {
   return (
     <div className='font-fontOne bg-[#ddeefa] min-h-screen'>
+      <RecoilRoot>
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Layout/>}>
@@ -19,6 +22,7 @@ const App = () => {
             <Route path='/about' element={<About/>}/>
             <Route path='/pricing' element={<Pricing/>}/>
             <Route path='/Faq' element={<Faq/>}/>
+            <Route path='/dashboard' element={<Dashboard/>} />
           </Route>
           {/* routes outside the layout thing  */}
           <Route path='/auth/signin' element={<Authsignin/>}/>
@@ -26,6 +30,7 @@ const App = () => {
           <Route path='*' element={<NoPage/>}/>
         </Routes>
       </BrowserRouter>
+      </RecoilRoot>
     </div>
   )
 }

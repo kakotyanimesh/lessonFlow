@@ -10,7 +10,7 @@ const signUp = async (req, res ) => {
 
     if(!parsedObject.success) return res.status(403).json({msg : 'invalid credentials ', error : parsedObject.error.errors})
 
-    const {email, username, password, fullName } = parsedObject.data
+    const {email, username, password } = parsedObject.data
 
     const hasedPassword = await bcrypt.hash(password, 10)
 
@@ -18,8 +18,7 @@ const signUp = async (req, res ) => {
         const user = await UserModel.create({
             email,
             username,
-            password : hasedPassword,
-            fullName
+            password : hasedPassword
         })
 
         const accessToken = generateAccessToken(user._id)
@@ -27,7 +26,8 @@ const signUp = async (req, res ) => {
 
         const options = {
             httpOnly: true,
-            secure : true
+            secure : true,
+            sameSite : 'Strict'
         }
 
         res.status(200)
@@ -67,7 +67,8 @@ const signIn = async (req, res) => {
 
         const options = {
             httpOnly : true,
-            secure : true
+            secure : true,
+            sameSite : 'Strict'
         }
 
         res.status(200)

@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 require('dotenv').config()
 const cookieParser = require('cookie-parser')
 const { userRouter } = require('./routes/user.router')
@@ -7,6 +8,16 @@ const { lessonRouter } = require('./routes/lesson.router')
 
 const app = express()
 const port = 3002
+
+const corsOptions = {
+    origin : ['http://127.0.0.1:5173'],
+    Credential : true,
+    methods : ['GET', 'PUT', 'POST', 'DELETE'],
+    preflightContinue : false,
+    optionSuccessStatus : 204
+}
+
+app.use(cors(corsOptions))
 
 app.use(express.json())
 app.use(cookieParser())
