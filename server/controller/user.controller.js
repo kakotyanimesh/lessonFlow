@@ -15,6 +15,10 @@ const signUp = async (req, res ) => {
     const hasedPassword = await bcrypt.hash(password, 10)
 
     try {
+
+        await UserModel.findOne({email})
+        // if(findUser) return res.status(409).json({msg : 'same email Id exits '})
+        
         const user = await UserModel.create({
             email,
             username,
@@ -35,7 +39,7 @@ const signUp = async (req, res ) => {
         .cookie('refreshToken', refreshToken, options)
         .json({
             msg : 'user created successfully',
-            user : user
+            username : user.username
         })
 
     } catch (error) {
@@ -75,7 +79,8 @@ const signIn = async (req, res) => {
             .cookie('accessToken', accessToken, options)
             .cookie('refreshToken', refreshToken, options)
             .json({
-                msg : 'user logged in Successfully'
+                msg : 'user logged in Successfully',
+                username : user.username
             })
     } catch (error) {
         console.log(`error while login : ${error.message}`);
@@ -106,8 +111,16 @@ const viewPlans = async (req, res) => {
     }
 }
 
+const clearCookie = (req, res) => {
+    // console.log('Cookies before clearing:', req.cookies);
+    res.clearCookie('accessToken') // there's something path thing 
+    res.clearCookie('refreshToken')
+    res.status(200).json({msg : 'User logged Out'})
+}
+
 module.exports = {
     signUp,
     signIn,
-    viewPlans
+    viewPlans,
+    clearCookie
 }

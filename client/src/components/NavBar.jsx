@@ -4,6 +4,9 @@ import logo from '../assets/logo.png'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import UserProfilebtn from './UserProfilebtn'
+import { userProfileState } from '../recoil/createUser.recoil'
 
 const navLinks = [
   {name : "Home", url:'/'},
@@ -17,6 +20,7 @@ const NavBar = () => {
     initial : {opacity : 0, y : -20},
     inView : {opacity : 1, y: 0, transition : {duration : 0.8, ease: "easeOut"}}
   }
+  const [userProfile, setUserProfile] = useRecoilState(userProfileState)
   const [isNavbar, setIsNavbar] = useState(window.innerWidth < 769)
   const [toggleMenu, setToggleMenu] = useState(false)
 
@@ -38,6 +42,23 @@ const NavBar = () => {
       document.body.style.overflow = 'auto'
     }
   }, [menu, toggleMenu])
+
+  // useEffect(() => {
+  //   const cookie = document.cookie
+  //   // console.log(cookie);
+    
+  //   const isAuthenticated = document.cookie.includes('accessToken')
+  //   // console.log('Is Authenticated:', isAuthenticated);
+  //   if(isAuthenticated) setUserProfile(true)
+  
+  // }, [])
+  useEffect(() => {
+    const isAuthenticated = document.cookie.includes('accessToken');
+    // Set user profile state based on the authentication status
+    setUserProfile(isAuthenticated);
+}, [setUserProfile]);
+ 
+  
   
   return (
     <motion.div variants={navBarAnimation} initial='initial' whileInView='inView' className='flex justify-between items-center  sm:px-16 px-10 text-xl' >
@@ -54,12 +75,19 @@ const NavBar = () => {
                 </li>
               ))}
             </ul>
-              <Link to='/auth/signin'><button className='transition hover:bg-[#c5dcee] p-2 rounded-xl delay-200 border-2 border-[#cffafe]'>signin</button></Link>
+              {
+                userProfile ? <UserProfilebtn/>
+                :
+                <Link to='/auth/signin'><button className='transition hover:bg-[#c5dcee] p-2 rounded-xl delay-200 border-2 border-[#cffafe]'>signin</button></Link>
+              }
             </>
             
           ) :
           <div className='flex gap-5'>
-            <Link to='/auth/signin'><button className='transition hover:bg-[#c5dcee] p-2 rounded-xl delay-200 border-2 border-[#cffafe]'>signin</button></Link>
+            {
+              userProfile ? <UserProfilebtn/> :
+              <Link to='/auth/signin'><button className='transition hover:bg-[#c5dcee] p-2 rounded-xl delay-200 border-2 border-[#cffafe]'>signin</button></Link>
+            }
 
             <button onClick={() => setToggleMenu(!toggleMenu)}><FontAwesomeIcon icon={faBars} /></button>
           </div>

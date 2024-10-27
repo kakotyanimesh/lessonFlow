@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { inView, motion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
 import { logInUser } from '../apiFrontend/authHandler'
@@ -6,13 +6,16 @@ import logo from '../assets/logo.png'
 import Input from '../components/Input'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons'
-import { useRecoilState } from 'recoil'
-import { userLoginState} from '../recoil/createUser.recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { userLoginState, authMessageState, userProfileState,protectedRoutesState } from '../recoil/createUser.recoil'
 
 
 const Authsignin = () => {
   const [ logInData, setlogInData] = useRecoilState(userLoginState)
   const navigate = useNavigate()
+  const [authMessage, setAuthMessage] = useRecoilState(authMessageState)
+  const setUserProfile = useSetRecoilState(userProfileState)
+  const setUserAuthenticated = useSetRecoilState(protectedRoutesState)
 
   const handleInput = (e) => {
     const {name, value } = e.target
@@ -28,12 +31,17 @@ const Authsignin = () => {
       const user = await logInUser(logInData)
 
       if(!user){
-        console.log('invalid password or email');
+        setAuthMessage(true)
         return
-        
       }
 
+      localStorage.setItem('username', user.username)
+      document.cookie = `accessToken=${user.accessToken}; path=/; secure`
+      setUserProfile(true)
+      setUserAuthenticated(true)
+
       setlogInData({email : '', password : ''})
+
       
       navigate('/dashboard')
     } catch (error) {
@@ -42,12 +50,24 @@ const Authsignin = () => {
     }
   }
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setAuthMessage(false)
+    }, 6000);
+  
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [authMessage])
+  
+
   const signinAnimation = {
     initial : {opacity : 0,  y : -20},
     inView : {opacity :1 , y: 0, transition : {duration : 0.5 }}
   }
   return (
-    <motion.div initial='initial' whileInView='inView' variants={signinAnimation} className='w-full flex flex-col items-center justify-center h-screen'>
+    <>
+    <motion.div initial='initial' whileInView='inView' variants={signinAnimation} className='relative w-full flex flex-col items-center justify-center h-screen'>
         <div className=' text-center bg-blue-200 sm:px-10 px-5 sm:py-2 rounded-xl  '>
             <Link to='/'><img src={logo} className='h-24 w-24 mx-auto' alt="" /></Link>
             <h1 className='text-2xl'>Welcome back </h1>
@@ -61,8 +81,15 @@ const Authsignin = () => {
                 </div>
             </form>
         </div>
-        
     </motion.div>
+    {
+      authMessage && (
+        <div className='absolute bottom-4 right-4 bg-blue-400 rounded-xl px-5 py-2'>
+          <h1>Invalid Credentials, try Again ! </h1>
+        </div>
+      )
+    }
+    </>
   )
 }
 

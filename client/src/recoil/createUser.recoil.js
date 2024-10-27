@@ -1,5 +1,18 @@
 import {atom} from 'recoil'
 
+// for profile view thing in navbar 
+export const userProfileState = atom({
+    key : 'userProfile',
+    default : false
+})
+
+// username thing i dont remember where i used it 
+export const usernameState = atom({
+    key : 'username',
+    default: ''
+})
+
+// store details while signed up 
 export const userCreateState = atom({
     key: 'userState',
     default : {
@@ -9,6 +22,8 @@ export const userCreateState = atom({
     }
 })
 
+
+// to store details while user login 
 export const userLoginState = atom({
     key : 'logInstate',
     default : {
@@ -17,8 +32,20 @@ export const userLoginState = atom({
     }
 })
 
-
+// to display auth message in login or signup pages 
 export const authMessageState = atom({
     key: 'authMessageState',
-    default : 'Invalid Credentials, try again!'
+    default : false
+})
+
+// for the profile button ig 
+export const profileButton = atom({
+    key : 'profileButton',
+    default : false
+})
+
+// for protected route 
+export const protectedRoutesState = atom({
+    key: 'protectedRoute',
+    default : false
 })

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import axiosInstance from './axiosInstance'
+import { Navigate } from 'react-router-dom';
 
 const createUser = async ({email, password, username} ) => {
     try {
@@ -37,7 +38,17 @@ const logInUser = async({email, password}) => {
 
 }
 
+const LogOutUser = async () => {
+    try {
+        await axios.get('/user/api/logOut', {withCredentials : true})
+    } catch (error) {
+        console.log('logOut failed');
+        
+    }
+}
+
 export  {
     createUser,
-    logInUser
+    logInUser,
+    LogOutUser
 }

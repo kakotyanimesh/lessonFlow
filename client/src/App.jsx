@@ -10,6 +10,8 @@ import AuthSignup from './pages/AuthSignup'
 import NoPage from './pages/NoPage'
 import Dashboard from './pages/Dashboard'
 import { RecoilRoot } from 'recoil'
+import UserProfile from './pages/UserProfile'
+import ProtectedRoutes from './components/ProtectedRoutes'
 
 const App = () => {
   return (
@@ -22,7 +24,10 @@ const App = () => {
             <Route path='/about' element={<About/>}/>
             <Route path='/pricing' element={<Pricing/>}/>
             <Route path='/Faq' element={<Faq/>}/>
-            <Route path='/dashboard' element={<Dashboard/>} />
+            <Route element={<ProtectedRoutes/>}>
+              <Route path='/dashboard' element={<Dashboard/>} />
+              <Route path='/user/profile' element={<UserProfile/>} />
+            </Route>
           </Route>
           {/* routes outside the layout thing  */}
           <Route path='/auth/signin' element={<Authsignin/>}/>
