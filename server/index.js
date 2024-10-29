@@ -7,7 +7,7 @@ const { userRouter } = require('./routes/user.router')
 const { lessonRouter } = require('./routes/lesson.router')
 
 const app = express()
-const port = 3002
+const port = 3004
 
 const corsOptions = {
     origin : ['http://127.0.0.1:5173'],

@@ -20,6 +20,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.1",
     "nodemon": "^3.1.7",
+    "officegen": "^0.6.5",
+    "openai": "^4.68.4",
     "zod": "^3.23.8"
   }
 }

@@ -9,6 +9,10 @@ const LessonSchema = new Schema({
         type : String,
         required : true
     },
+    topic: {
+        type : String,
+        required : true
+    },
     grade : {
         type : String,
         required : true

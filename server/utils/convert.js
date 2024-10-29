@@ -1,93 +1,64 @@
-// make a function that converts text to docs using docx library
+// going to use officegen 
+const officegen = require('officegen')
 const fs = require('fs')
-const docx = require("docx");
-const { Document, Packer, Paragraph, TextRun } = docx
 
 
-const paragaphWriting = (heading, content, headingSize = 24, contentSize = 20) => {
-    return [
-        new Paragraph({
-            children : [
-                new TextRun({
-                    text : heading,
-                    bold : true,
-                    size : headingSize
-                })
-            ]
-        }),
+const createDocument = ({overviewText, curricularText, factualsText, conceptualText, proceduralText}) => {
+    let docx = officegen('docx')
 
-        new Paragraph({
-            children : [
-                new TextRun({
-                    text : content,
-                    size : contentSize,
-                    break : 1
-                })
-            ]
-        })
+    let title = docx.createP()
+    title.addText('Lesson Plan ')
+    title.addLineBreak()
+
+    let overviewPara = docx.createP()
+    overviewPara.addText('Overview and Learning Objective', { bold: true, underline: true })
+    overviewPara.addText(overviewText)
+    overviewPara.addLineBreak()
+
+    let curricularPara = docx.createP()
+    curricularPara.addText('Curricular Goals and Curricular competencies', { bold : true, underline : true})
+    curricularPara.addText(curricularText)
+    docx.putPageBreak()
+
+    let tableOne = [
+        [
+            {val : 'Learning Objective', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },
+            {val : 'Curricular competencies ', opts : { cellColWidth: 4261, b: true, fontFamily: "Arial" } },
+            {val : 'FACTUAL KNOWLEDGE', opts : { cellColWidth: 4261, b: true, fontFamily: "Arial" } },
+            {val : 'CONCEPTUAL KNOWLEDGE', opts : { cellColWidth: 4261, b: true, fontFamily: "Arial" } },
+            {val : 'PROCEDURAL KNOWLEDGE', opts : { cellColWidth: 4261, b: true, fontFamily: "Arial" } }
+        ],
+        [{val: 'LO-1'},  {val : 'CC-1 '},  { val : `${factualsText}`, }, { val : `${conceptualText}`, }, { val : `${proceduralText}`}  ],
+        [{val: 'LO-2'},  {val : 'CC-2 '},  { val : `${factualsText}`, }, { val : `${conceptualText}`, }, { val : `${proceduralText}`}  ],
+        [{val: 'LO-3'},  {val : 'CC-3 '},  { val : `${factualsText}`, }, { val : `${conceptualText}`, }, { val : `${proceduralText}`}  ]        
     ]
+
+    const tableStyle = {
+        tableColWidth: 4261,
+        tableSize: 24,
+        tableAlign: "center",
+        tableFontFamily: "Arial"
+      }
+
+      console.log('animehsh kakot');
+      
+      docx.createTable(tableOne, tableStyle)
+
+    let document = fs.createWriteStream('lessonplan.docx')
+
+    document.on('error' , (err) => {
+        console.log(`error here ${err}`);
+    })
+
+    docx.generate(document)
+
+    // document.out('close', () => {
+    //     console.log('lesson Plan created Successfully ');
+        
+    // })
 }
 
-
-const createDocx = async ({
-    overview,
-    learningPoints,
-    curricularGoals,
-    curricularCompetencies,
-    mapping,
-    previousKnowledge,
-    instructionalStrategies,
-    resources,
-    introduction,
-    presentation,
-    blackboardWork,
-    summarisation,
-    assessmentQuestions,
-    homeAssignment,
-    suggestedReadings,
-    reflection
-}, fileName) => {
-    try {
-        const doc = new Document({
-            sections : [
-                {
-                    properties : {},
-                    children : [
-                        ...paragaphWriting('1.Overview of the lesson', overview),
-                        ...paragaphWriting('2.Learning Points', learningPoints),
-                        ...paragaphWriting('3.Curricular Goals', curricularGoals),
-                        ...paragaphWriting('4.Curricular Competencies', curricularCompetencies),
-                        ...paragaphWriting('5.Mapping of Learning Outcomes with Curricular Competencies table ', mapping),
-                        ...paragaphWriting('6.Previous Knowledge', previousKnowledge),
-                        ...paragaphWriting('7.Instructional Strategies', instructionalStrategies),
-                        ...paragaphWriting('8.Teaching-Learning Resources', resources),
-                        ...paragaphWriting('9.Instruction', introduction),
-                        ...paragaphWriting('10.Presentation // table', presentation),
-                        ...paragaphWriting('11.blackboardWork // image ', blackboardWork),
-                        ...paragaphWriting('12.summarisation', summarisation),
-                        ...paragaphWriting('13.assessmentQuestions', assessmentQuestions),
-                        ...paragaphWriting('14.homeAssignment', homeAssignment),
-                        ...paragaphWriting('15.suggestedReadings', suggestedReadings),
-                        ...paragaphWriting('16.reflection', reflection)
-                    ]
-                }
-            ]
-        })
-
-        const buffer = await Packer.toBuffer(doc)
-        const filePath = `${fileName}.docx`
-        fs.writeFileSync(filePath, buffer)
-
-        console.log(`${filePath} created successfully`);
-        return filePath
-        
-        
-    } catch (error) {
-        console.log(`unable to create file`);
-        throw error
-    }
-}
 
 module.exports = {
-    createDocx
+    createDocument
 }
