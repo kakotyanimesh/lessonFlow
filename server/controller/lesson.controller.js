@@ -155,7 +155,7 @@ module.exports = {
 //     const { subject, grade, duration } = parsedObject.data
 
 //     try {
-//         const genAI = new GoogleGenerativeAI('AIzaSyBTkOrR3OCXzTXnDCef4QLXKOTpLNZoOsQ');
+//         const genAI = new GoogleGenerativeAI('');
 //         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 
