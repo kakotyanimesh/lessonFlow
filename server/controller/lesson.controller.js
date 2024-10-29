@@ -4,7 +4,7 @@ const { OpenAI, Configuration } = require('openai')
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { LessonPlanModel } = require('../model/lesson.model')
 const { createDocument } = require('../utils/convert')
-const { overview, curricularParagraph, conceptualpart, proceduralpart, factualKnowledgepart } = require('../utils/prompts')
+const { overview, curricularParagraph, conceptualpart, proceduralpart, factualKnowledgepart, teachingPointPart, sequentialActivityPart, formativeAssesmentPart, gptQuestionPart, summarisationPart, essentialQuestionPart } = require('../utils/prompts')
 
 
 
@@ -64,17 +64,29 @@ const createPlan = async (req, res) => {
         const factualKnowledgePrompt = factualKnowledgepart({subject, topic, grade})
         const conceptualPrompt = conceptualpart({subject, topic, grade})
         const proceduralPrompt = proceduralpart({subject, topic, grade})
+        const essentialQuestionPrompt = essentialQuestionPart({subject, topic, grade})
+        const teachingPointPrompt = teachingPointPart({subject, topic, grade})
+        const sequentialActivityPrompt = sequentialActivityPart({subject, topic, grade})
+        const formativeAssesmentPrompt = formativeAssesmentPart({subject, topic, grade})
+        const gptQuestionPrompt = gptQuestionPart({subject, topic, grade})
+        const summarisationPrompt = summarisationPart({subject, topic, grade})
     // const combinedLessonPlanPrompt = `create a lesson plan on the subbject ${subject} with ${topic} of grade ${grade} of duration ${duration}`
     try {
         const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const [overview, curricularPara, factualpart, conceptual, procedural ] = await Promise.all([
+        const [overview, curricularPara, factualpart, conceptual, procedural, essential ,teaching, sequential, formative, gptquestion, summary ] = await Promise.all([
             model.generateContent(overviewPrompt),
             model.generateContent(curricularParaPrompt),
             model.generateContent(factualKnowledgePrompt),
             model.generateContent(conceptualPrompt),
-            model.generateContent(proceduralPrompt)
+            model.generateContent(proceduralPrompt),
+            model.generateContent(essentialQuestionPrompt),
+            model.generateContent(teachingPointPrompt),
+            model.generateContent(sequentialActivityPrompt),
+            model.generateContent(formativeAssesmentPrompt),
+            model.generateContent(gptQuestionPrompt),
+            model.generateContent(summarisationPrompt)
         ])
         
 
@@ -84,12 +96,17 @@ const createPlan = async (req, res) => {
         const factualsText = factualpart.response.candidates[0].content.parts[0].text
         const conceptualText = conceptual.response.candidates[0].content.parts[0].text
         const proceduralText = procedural.response.candidates[0].content.parts[0].text
+        const essentialQuestionText = essential.response.candidates[0].content.parts[0].text
+        const teachingPointText = teaching.response.candidates[0].content.parts[0].text
+        const sequentialActivityText = sequential.response.candidates[0].content.parts[0].text
+        const formativeAssesmentText = formative.response.candidates[0].content.parts[0].text
+        const gptQuestionText = gptquestion.response.candidates[0].content.parts[0].text
+        const summarizationhomeText = summary.response.candidates[0].content.parts[0].text
         
-        createDocument({overviewText, curricularText, factualsText, conceptualText, proceduralText})
+        createDocument({subject, topic, grade, duration, overviewText, curricularText, factualsText, conceptualText, proceduralText,essentialQuestionText, teachingPointText, sequentialActivityText, formativeAssesmentText, gptQuestionText, summarizationhomeText})
 
         res.status(200).json({
-            generatedTextOne : overviewText,
-            generatedTextTwo : curricularText
+           msg : `lesson Plan created `
         })
             
     } catch (error) {

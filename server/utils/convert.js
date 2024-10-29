@@ -1,51 +1,90 @@
 // going to use officegen 
 const officegen = require('officegen')
 const fs = require('fs')
+const { type } = require('os')
 
 
-const createDocument = ({overviewText, curricularText, factualsText, conceptualText, proceduralText}) => {
-    let docx = officegen('docx')
+const createDocument = ({subject, topic, grade, duration, overviewText, curricularText, factualsText, conceptualText, proceduralText,essentialQuestionText, teachingPointText, sequentialActivityText, formativeAssesmentText, gptQuestionText, summarizationhomeText}) => {
+    
+    let docx = officegen({
+        type: 'docx',
+        orientation : 'landscape',
+        title : 'LESSON PLAN'
+    })
 
-    let title = docx.createP()
-    title.addText('Lesson Plan ')
-    title.addLineBreak()
+    let introTable = [
+        [{val : "Lesson Plan no :  ", opts: { 
+        }}
+        ],
+        [
+            {val : "Date : " ,},
+            ``,
+            {val : "Subject : "},
+            ` ${subject}`
+        ],
+        [
+            {val : "Class : "},
+            ` ${grade}`,
+            {val : `Chapter : `},
+            ` ${topic}`
+        ],
+        [
+            {val : 'Time : '},
+            ` ${duration}`,
+            {val : 'Period : '},
+            ``
+        ]
+    ]
+
+    let introTableStyle = {
+        tableColWidth: 4261,
+        tableSize : 12,
+        tableFontFamily: "Times New Roman",
+        tableAlign : "left",
+        borders : true
+    }
+
+    docx.createTable(introTable, introTableStyle)
+    
+
 
     let overviewPara = docx.createP()
+    overviewPara.addLineBreak()
     overviewPara.addText('Overview and Learning Objective', { bold: true, underline: true })
+    overviewPara.addLineBreak()
     overviewPara.addText(overviewText)
     overviewPara.addLineBreak()
 
     let curricularPara = docx.createP()
     curricularPara.addText('Curricular Goals and Curricular competencies', { bold : true, underline : true})
+    curricularPara.addLineBreak()
     curricularPara.addText(curricularText)
-    docx.putPageBreak()
+    curricularPara.addLineBreak()*2
+
 
     let tableOne = [
         [
-            {val : 'Learning Objective', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },
-            {val : 'Curricular competencies ', opts : { cellColWidth: 4261, b: true, fontFamily: "Arial" } },
-            {val : 'FACTUAL KNOWLEDGE', opts : { cellColWidth: 4261, b: true, fontFamily: "Arial" } },
-            {val : 'CONCEPTUAL KNOWLEDGE', opts : { cellColWidth: 4261, b: true, fontFamily: "Arial" } },
-            {val : 'PROCEDURAL KNOWLEDGE', opts : { cellColWidth: 4261, b: true, fontFamily: "Arial" } }
+            {val : 'Learning Objective', opts : { cellColWidth: 4261, } },
+            {val : 'Curricular competencies ', opts : { cellColWidth: 4261} },
+            {val : 'FACTUAL KNOWLEDGE', opts : { cellColWidth: 4261} },
+            {val : 'CONCEPTUAL KNOWLEDGE', opts : { cellColWidth: 4261} },
+            {val : 'PROCEDURAL KNOWLEDGE', opts : { cellColWidth: 4261} }
         ],
-        [{val: 'LO-1'},  {val : 'CC-1 '},  { val : `${factualsText}`, }, { val : `${conceptualText}`, }, { val : `${proceduralText}`}  ],
-        [{val: 'LO-2'},  {val : 'CC-2 '},  { val : `${factualsText}`, }, { val : `${conceptualText}`, }, { val : `${proceduralText}`}  ],
-        [{val: 'LO-3'},  {val : 'CC-3 '},  { val : `${factualsText}`, }, { val : `${conceptualText}`, }, { val : `${proceduralText}`}  ]        
+        [{val: 'LO-1'},  {val : 'CC-1 '},  { val : `${factualsText}`, }, { val : `${conceptualText}`, }, { val : `${proceduralText}`}  ]       
     ]
 
-    const tableStyle = {
-        tableColWidth: 4261,
-        tableSize: 24,
-        tableAlign: "center",
-        tableFontFamily: "Arial"
-      }
 
-      docx.createTable(tableOne, tableStyle)
-      docx.putPageBreak()
+      docx.createTable(tableOne, introTableStyle)
 
-    //   console.log('animehsh kakot');
+    
+      const essentialQuestion = docx.createP()
+      essentialQuestion.addLineBreak()
+      essentialQuestion.addText('Essential question', { bold : true, underline : true})
+      essentialQuestion.addLineBreak()
+      essentialQuestion.addText(essentialQuestionText)
+      essentialQuestion.addLineBreak()
 
-    const presentationTable = [
+    let  presentationTable = [
         [
             {val : 'Teaching Points', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },
             {val : 'Learning Outcomes', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },
@@ -53,16 +92,25 @@ const createDocument = ({overviewText, curricularText, factualsText, conceptualT
             {val : 'Formative Assessment', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },
             {val : 'Expected Queries', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },  
         ],
-        [{val: 'anims'},{val: 'LO1, LO2'},{val : `activity from gpt`},{val : `questions from gpt`}],
-        [{val: 'anims'},{val: 'LO1, LO2'},{val : `activity from gpt`},{val : `questions from gpt`}],
-        [{val: 'anims'},{val: 'LO1, LO2'},{val : `activity from gpt`},{val : `questions from gpt`}],
-        [{val: 'anims'},{val: 'LO1, LO2'},{val : `activity from gpt`},{val : `questions from gpt`}]
+        [{val: `${teachingPointText}`},{val: 'LO1, LO2'},{val : `${sequentialActivityText}`},{val : `${formativeAssesmentText}`},{val : `${gptQuestionText}`}],
+        [{val: `${teachingPointText}`},{val: 'LO1, LO2'},{val : `${sequentialActivityText}`},{val : `${formativeAssesmentText}`},{val : `${gptQuestionText}`}]
     ]
       
     
-    docx.createTable(presentationTable, tableStyle)
+    docx.createTable(presentationTable, introTableStyle)
 
-    let document = fs.createWriteStream('lessonplan.docx')
+    const summarizationandHomeWork = docx.createP()
+    summarizationandHomeWork.addLineBreak()
+    summarizationandHomeWork.addText('summarization And Home work : ', { bold: true, underline: true})
+    summarizationandHomeWork.addLineBreak()
+    summarizationandHomeWork.addText(`${summarizationhomeText}`)
+    summarizationandHomeWork.addLineBreak()
+
+    const teacherSignature = docx.createP()
+    teacherSignature.addText('Signature of Teacher ', {bold : true, underline : true})
+
+
+    let document = fs.createWriteStream(`${topic}.docx`)
 
     document.on('error' , (err) => {
         console.log(`error here ${err}`);
