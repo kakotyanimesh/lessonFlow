@@ -40,9 +40,27 @@ const createDocument = ({overviewText, curricularText, factualsText, conceptualT
         tableFontFamily: "Arial"
       }
 
-      console.log('animehsh kakot');
-      
       docx.createTable(tableOne, tableStyle)
+      docx.putPageBreak()
+
+    //   console.log('animehsh kakot');
+
+    const presentationTable = [
+        [
+            {val : 'Teaching Points', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },
+            {val : 'Learning Outcomes', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },
+            {val : 'Sequential Learning Activities', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },
+            {val : 'Formative Assessment', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },
+            {val : 'Expected Queries', opts : { cellColWidth: 4261, b: true,  fontFamily: "Arial" } },  
+        ],
+        [{val: 'anims'},{val: 'LO1, LO2'},{val : `activity from gpt`},{val : `questions from gpt`}],
+        [{val: 'anims'},{val: 'LO1, LO2'},{val : `activity from gpt`},{val : `questions from gpt`}],
+        [{val: 'anims'},{val: 'LO1, LO2'},{val : `activity from gpt`},{val : `questions from gpt`}],
+        [{val: 'anims'},{val: 'LO1, LO2'},{val : `activity from gpt`},{val : `questions from gpt`}]
+    ]
+      
+    
+    docx.createTable(presentationTable, tableStyle)
 
     let document = fs.createWriteStream('lessonplan.docx')
 
@@ -62,3 +80,7 @@ const createDocument = ({overviewText, curricularText, factualsText, conceptualT
 module.exports = {
     createDocument
 }
+
+
+
+
