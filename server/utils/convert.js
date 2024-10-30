@@ -1,4 +1,5 @@
 // going to use officegen 
+const path = require('path')
 const officegen = require('officegen')
 const fs = require('fs')
 const { type } = require('os')
@@ -110,18 +111,26 @@ const createDocument = ({subject, topic, grade, duration, overviewText, curricul
     teacherSignature.addText('Signature of Teacher ', {bold : true, underline : true})
 
 
-    let document = fs.createWriteStream(`${topic}.docx`)
+    const filePath = path.join(__dirname, '..', 'LessonPlansTemp', `${topic}.docx`)
 
-    document.on('error' , (err) => {
-        console.log(`error here ${err}`);
+    let document = fs.createWriteStream(filePath)
+
+    return new Promise((resolve, reject) => {
+        document.on('finish', () => {
+            console.log('file created');
+            resolve(filePath)
+        })
+        document.on('error', (err) => {
+            console.log(err, 'error while creating docs');
+            reject(err)
+        })
+
+        docx.generate(document)
     })
 
-    docx.generate(document)
+    
 
-    // document.out('close', () => {
-    //     console.log('lesson Plan created Successfully ');
-        
-    // })
+    
 }
 
 
@@ -132,3 +141,27 @@ module.exports = {
 
 
 
+/*
+        document.on is a function or something that listens to streams => path for data, incoming data or outgoing data ( creation of document etc) and 
+        so creating word document is outgoing  data => im taking data from my code and write it in file  when the stream is on the document.on fn listen to it and if error event happens its logs the error and when the finished means the doc is created => event listner is close here , the call back function runs and gives us the downloded thing 
+
+        more in my notion docs =>https://www.notion.so/Stream-node-js-12e3bf53d78c809e81fbc314705b22ae
+    */
+
+    // document.on('close', () => {
+    //     res.dowload(filePath,(err) => {
+    //         if(err) {
+    //             console.log(`error while sending the file ${err}`);
+    //             res.status(500).json({msg : 'error while downloading the file'})
+    //         } else {
+    //             fs.unlinkSync(filePath, (err) => {
+    //                 if(err) console.log(err);
+    //             })
+    //         }
+    //     } )
+    // })
+
+    // document.out('close', () => {
+    //     console.log('lesson Plan created Successfully ');
+        
+    // })

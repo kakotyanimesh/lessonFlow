@@ -111,6 +111,8 @@ const viewPlans = async (req, res) => {
     }
 }
 
+
+
 const clearCookie = (req, res) => {
     // console.log('Cookies before clearing:', req.cookies);
     res.clearCookie('accessToken') // there's something path thing 

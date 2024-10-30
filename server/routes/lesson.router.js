@@ -10,6 +10,7 @@ lessonRouter.post('/createPlan',auth, createPlan)
 lessonRouter.get('/viewAllLessonPlans', viewAllPlans)
 
 
+
 module.exports = {
     lessonRouter
 }

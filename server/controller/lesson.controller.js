@@ -1,4 +1,6 @@
 const { lessonPlanObject } = require('../utils/zod')
+const fs = require('fs')
+const path = require('path')
 const axios = require('axios')
 const { OpenAI, Configuration } = require('openai')
 const { GoogleGenerativeAI } = require("@google/generative-ai");
@@ -103,11 +105,27 @@ const createPlan = async (req, res) => {
         const gptQuestionText = gptquestion.response.candidates[0].content.parts[0].text
         const summarizationhomeText = summary.response.candidates[0].content.parts[0].text
         
-        createDocument({subject, topic, grade, duration, overviewText, curricularText, factualsText, conceptualText, proceduralText,essentialQuestionText, teachingPointText, sequentialActivityText, formativeAssesmentText, gptQuestionText, summarizationhomeText})
+       const docFile = await createDocument({subject, topic, grade, duration, overviewText, curricularText, factualsText, conceptualText, proceduralText,essentialQuestionText, teachingPointText, sequentialActivityText, formativeAssesmentText, gptQuestionText, summarizationhomeText})
 
-        res.status(200).json({
-           msg : `lesson Plan created `
+    //    if (fs.existsSync(docFile)) {
+    //     console.log('File exists');
+    //     // Proceed to send the file
+    // } else {
+    //     console.log('File does not exist');
+    //     // Handle the missing file case
+    // }
+
+        res.download(docFile, `${topic}.docx`, (err) => {
+            if(err) {
+                console.log(`Error sending file: ${err}`);
+                res.status(500).json({ msg: 'Error downloading file.' });
+            } else {
+                fs.unlink(docFile, (err) => {
+                    if (err) console.error(`Error deleting file: ${err}`);
+                });
+            }
         })
+        
             
     } catch (error) {
         console.log(`lesson plan ${error}`);
@@ -136,6 +154,9 @@ const viewAllPlans = async(req, res) => {
         
     }
 }
+
+
+
 
 module.exports = {
     createPlan,
