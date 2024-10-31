@@ -61,8 +61,16 @@ const createPlan = async (req, res) => {
         const formativeAssesmentText = formative.response.candidates[0].content.parts[0].text
         const gptQuestionText = gptquestion.response.candidates[0].content.parts[0].text
         const summarizationhomeText = summary.response.candidates[0].content.parts[0].text
+
+        const docFilePath = path.join(lessonPlansDir, `${topic}.docx`);
+    const docFile = await createDocument(docFilePath, {
+    subject, topic, grade, duration, overviewText, curricularText, factualsText, conceptualText,
+    proceduralText, essentialQuestionText, teachingPointText, sequentialActivityText,
+    formativeAssesmentText, gptQuestionText, summarizationhomeText
+    });
+
         
-       const docFile = await createDocument({subject, topic, grade, duration, overviewText, curricularText, factualsText, conceptualText, proceduralText,essentialQuestionText, teachingPointText, sequentialActivityText, formativeAssesmentText, gptQuestionText, summarizationhomeText})
+    //    ~const docFile = await createDocument({subject, topic, grade, duration, overviewText, curricularText, factualsText, conceptualText, proceduralText,essentialQuestionText, teachingPointText, sequentialActivityText, formativeAssesmentText, gptQuestionText, summarizationhomeText})
 
     //    if (fs.existsSync(docFile)) {
     //     console.log('File exists');
