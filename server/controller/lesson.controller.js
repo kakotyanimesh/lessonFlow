@@ -62,13 +62,7 @@ const createPlan = async (req, res) => {
         const gptQuestionText = gptquestion.response.candidates[0].content.parts[0].text
         const summarizationhomeText = summary.response.candidates[0].content.parts[0].text
 
-        const lessonPlansDir = path.join(__dirname, 'LessonPlansTemp');
-
-// Check if LessonPlansTemp exists; if not, create it
-if (!fs.existsSync(lessonPlansDir)) {
-    fs.mkdirSync(lessonPlansDir, { recursive: true });
-    console.log('Created LessonPlansTemp directory');
-}
+        
         
        const docFile = await createDocument({subject, topic, grade, duration, overviewText, curricularText, factualsText, conceptualText, proceduralText,essentialQuestionText, teachingPointText, sequentialActivityText, formativeAssesmentText, gptQuestionText, summarizationhomeText})
 
