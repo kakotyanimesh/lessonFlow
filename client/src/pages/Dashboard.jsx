@@ -50,6 +50,9 @@ const Dashboard = () => {
 
             // Revoke the object URL to free up memory
             URL.revokeObjectURL(downloadUrl);
+
+            setLessonPlanData({subject : '', topic: '', grade: '', duration: ''})
+            setlpFrom(false)
         }
     } catch (error) {
         console.log('Error downloading file:', error);
