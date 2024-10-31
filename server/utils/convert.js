@@ -111,7 +111,7 @@ const createDocument = ({subject, topic, grade, duration, overviewText, curricul
     teacherSignature.addText('Signature of Teacher ', {bold : true, underline : true})
 
 
-    const filePath = path.join(__dirname, '..', 'LessonPlansTemp', `${topic}.docx`)
+    const filePath = path.join(__dirname, '..', 'lessonPlansDir', `${topic}.docx`)
 
     let document = fs.createWriteStream(filePath)
 
