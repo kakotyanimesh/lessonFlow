@@ -1,53 +1,48 @@
-import axios from 'axios';
-import axiosInstance from './axiosInstance'
-import { Navigate } from 'react-router-dom';
+import axios from "axios";
 
-const createUser = async ({email, password, username} ) => {
+// axios.defaults.baseURL = 'http://localhost:3004/api/v1'
+
+const axiosInstancess = axios.create({
+    baseURL:'http://localhost:3004/api/v1/user'
+})
+const createUser =async ({email, username, password}) => {
     try {
-
-        const response = await axiosInstance.post('/user/signup', {
+        const response = await axiosInstancess.post('/signup', {
             email,
-            password,
-            username
-        }) 
-
-        console.log('user created successfully');
-        
-        return response.data
-    } catch (error) {
-        console.log('error while creating user', error);
-        // return res.json(`${error.message}`)
-    }
-}
-
-
-const logInUser = async({email, password}) => {
-    try {
-        const response = await axiosInstance.post('/user/signin', {
-            email,
+            username,
             password
         })
-
-        console.log('user logged in ');
+    
+        console.log(response.data);
         
         return response.data
     } catch (error) {
-        console.log(`error while sign in process : ${error.message}`);
+       console.log(`error while creating the user : ${error}`);
         
     }
-
 }
 
-const LogOutUser = async () => {
+const logInUser =async ({email, password}) => {
+    const response =await axiosInstancess.post('/signin', {
+        email,
+        password
+    })
+
+    console.log(response.data);
+    
+    return response.data
+}
+
+const LogOutUser =async () => {
     try {
-        await axios.get('/user/api/logOut', {withCredentials : true})
+        await axios.get('/api/logOut', {withCredentials : true})
     } catch (error) {
         console.log('logOut failed');
         
     }
 }
 
-export  {
+export {
     createUser,
     logInUser,
     LogOutUser

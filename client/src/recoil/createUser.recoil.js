@@ -13,7 +13,7 @@ export const usernameState = atom({
 })
 
 // store details while signed up 
-export const userCreateState = atom({
+export const usersignupState = atom({
     key: 'userState',
     default : {
         email : '',
@@ -46,6 +46,16 @@ export const profileButton = atom({
 
 // for protected route 
 export const protectedRoutesState = atom({
-    key: 'protectedRoute',
-    default : false
+    key: 'protectedRoutesState',
+    default: !!localStorage.getItem('username'), // initialize based on username presence in localStorage
+});
+
+export const lessonPlanForm = atom({
+    key : 'lessonPlanValue',
+    default : {
+        subject : '',
+        topic : '',
+        grade : '',
+        duration : ''
+    }
 })

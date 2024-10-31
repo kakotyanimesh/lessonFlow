@@ -7,7 +7,7 @@ import Input from '../components/Input'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope, faLock, faUser } from '@fortawesome/free-solid-svg-icons'
 import { inView } from 'framer-motion'
-import { userCreateState, authMessageState, userProfileState, protectedRoutesState } from '../recoil/createUser.recoil'
+import { usersignupState, authMessageState, userProfileState, protectedRoutesState } from '../recoil/createUser.recoil'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import { createUser } from '../apiFrontend/authHandler'
 import { useEffect } from 'react'
@@ -16,7 +16,7 @@ import PasswordStrength from '../components/PasswordStrength'
 
 
 const AuthSignup = () => {
-  const [user, setUser] = useRecoilState(userCreateState)
+  const [user, setUser] = useRecoilState(usersignupState)
   const [authMessage, setAuthMessage] = useRecoilState(authMessageState)
   const setUserProfile = useSetRecoilState(userProfileState)
   const setuserAuthenticated = useSetRecoilState(protectedRoutesState)
@@ -33,6 +33,9 @@ const AuthSignup = () => {
         setAuthMessage(true)
         return
       }
+
+      console.log(userCreated.accessToken);
+      
 
       localStorage.setItem('username', userCreated.username)
       document.cookie = `accessToken=${userCreated.accessToken}; path=/; secure`

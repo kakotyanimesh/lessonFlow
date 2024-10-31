@@ -6,7 +6,7 @@ const { auth } = require('../middlewares/auth')
 const lessonRouter = Router()
 
 
-lessonRouter.post('/createPlan',auth, createPlan)
+lessonRouter.post('/createPlan', createPlan)
 lessonRouter.get('/viewAllLessonPlans', viewAllPlans)
 
 

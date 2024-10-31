@@ -17,50 +17,7 @@ const createPlan = async (req, res) => {
     if(!parsedObject.success) return res.status(403).json({msg : `provide valid crediantials`, error : parsedObject.error.errors})
         
     const { subject, topic, grade, duration } = parsedObject.data
-    // const combinedLessonPlanPrompt = `
-    //                                 Please provide the response without using any headings or section titles, as the headings are already prewritten. Focus only on delivering the content requested.
-                                
-    //                                 Create a comprehensive lesson plan for the subject: ${subject}, targeting grade level: ${grade}. The plan should cover a ${duration}-minute class and include the following:
-                                
-    //                                 1. Provide an overview of the lesson, describing the main concepts and activities that will be covered, keeping the duration of the class in mind.
-    //                                 2. List the key learning points, formatted as:
-    //                                    - LP-1: [Brief description of the learning point]
-    //                                    - LP-2: [Brief description of the learning point]
-    //                                    - LP-3: [Brief description of the learning point]
-    //                                 3. Define the broader curricular goals, formatted as:
-    //                                    - CG-1: [Description of the first curricular goal]
-    //                                    - CG-2: [Description of the second curricular goal]
-    //                                 4. List specific curricular competencies, formatted as:
-    //                                    - CC-1: [Description of the first competency]
-    //                                    - CC-2: [Description of the second competency]
-    //                                 5. Map the learning outcomes to curricular competencies in a table:
-    //                                    | **Curricular Competency** | **Learning Outcome** | **Details** |
-    //                                    |---------------------------|---------------------|-------------|
-    //                                    | CC-1                      | LO-1: [Learning outcome description] | [Details of how it aligns with the competency] |
-    //                                    | CC-2                      | LO-2: [Learning outcome description] | [Details of how it aligns with the competency] |
-                                
-    //                                 6. Describe the previous knowledge students should have before starting the lesson, relevant to understanding the new concepts.
-    //                                 7. Describe the instructional strategies, including:
-    //                                    - **Approach**: [Overall teaching approach, e.g., hands-on learning, inquiry-based learning].
-    //                                    - **Method**: [Specific teaching methods like demonstrations, student experiments, or group activities].
-    //                                 8. List all the teaching and learning resources required, including tools, diagrams, digital resources, and any other relevant aids.
-    //                                 9. Create an introduction for the lesson, including questions or activities to engage students and connect to their prior knowledge.
-    //                                 10. Outline the presentation for the lesson, including:
-    //                                    - **Teaching Points**: [List key teaching points].
-    //                                    - **Sequential Learning Activities**: Present in a table:
-    //                                      | **Teaching Points**         | **Learning Outcomes**   | **Activities**          |
-    //                                      |-----------------------------|-------------------------|-------------------------|
-    //                                      | [What makes objects visible?]| LO-1                    | [Activity description]   |
-    //                                      | [Laws of Reflection]         | LO-2, LO-3              | [Activity description]   |
-    //                                    - **Formative Assessment**: [Methods to assess students' understanding during the lesson].
-    //                                    - **Expected Queries**: [Common questions students may ask and answers].
-    //                                 11. Outline key points, diagrams, and notes for the blackboard.
-    //                                 12. Provide a summary of the key takeaways and main points covered in the lesson.
-    //                                 13. List assessment questions to test students' understanding of key concepts covered in the lesson.
-    //                                 14. Suggest home assignments or projects to reinforce the concepts covered in the lesson.
-    //                                 15. Recommend additional reading materials or online resources to deepen understanding, including books, articles, and websites.
-    //                                 16. Create a student-teacher reflection section, including suggestions for improving the lesson based on student feedback and observations of student engagement and understanding.`;
-                                
+                               
         const overviewPrompt = overview({subject, topic, grade, duration})
         const curricularParaPrompt = curricularParagraph({subject, topic, grade})
         const factualKnowledgePrompt = factualKnowledgepart({subject, topic, grade})

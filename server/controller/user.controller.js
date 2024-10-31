@@ -16,8 +16,9 @@ const signUp = async (req, res ) => {
 
     try {
 
-        await UserModel.findOne({email})
-        // if(findUser) return res.status(409).json({msg : 'same email Id exits '})
+        const findUser = await UserModel.findOne({ email });
+        if (findUser) return res.status(409).json({ msg: 'same email Id exists' });
+        
         
         const user = await UserModel.create({
             email,
@@ -31,7 +32,7 @@ const signUp = async (req, res ) => {
         const options = {
             httpOnly: true,
             secure : true,
-            sameSite : 'Strict'
+            // sameSite : 'Strict'
         }
 
         res.status(200)

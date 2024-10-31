@@ -1,16 +1,21 @@
-import React from 'react'
-import { protectedRoutesState  } from '../recoil/createUser.recoil'
-import { useRecoilValue } from 'recoil'
-import { Navigate, Outlet } from 'react-router-dom'
+import React, { useEffect } from 'react';
+import { protectedRoutesState } from '../recoil/createUser.recoil';
+import { useRecoilState } from 'recoil';
+import { Navigate, Outlet } from 'react-router-dom';
 
 const ProtectedRoutes = () => {
-    const userAuthenticated = useRecoilValue(protectedRoutesState)
+    const [userAuthenticated, setUserAuthenticated] = useRecoilState(protectedRoutesState);
 
-    if(!userAuthenticated){
-        return <Navigate to='/auth/signin'/>
+    useEffect(() => {
+      const username = localStorage.getItem('username');
+      if (username) setUserAuthenticated(true);
+    }, [setUserAuthenticated]);
+
+    if (!userAuthenticated) {
+        return <Navigate to='/auth/signin' />;
     }
 
-    return <Outlet/>
-}
+    return <Outlet />;
+};
 
-export default ProtectedRoutes
+export default ProtectedRoutes;
