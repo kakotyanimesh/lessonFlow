@@ -10,14 +10,14 @@ const app = express()
 const port = 3004
 
 const corsOptions = {
-    origin : ['http://127.0.0.1:5173'],
+    origin : ['https://lesson-flow.vercel.app'],
     credentials : true,
     methods : ['GET', 'PUT', 'POST', 'DELETE'],
     preflightContinue : false,
     optionSuccessStatus : 204
 }
 
-app.use(cors())
+app.use(cors(corsOptions))
 
 app.use(express.json())
 app.use(cookieParser())
