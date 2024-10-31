@@ -62,7 +62,7 @@ const createPlan = async (req, res) => {
         const gptQuestionText = gptquestion.response.candidates[0].content.parts[0].text
         const summarizationhomeText = summary.response.candidates[0].content.parts[0].text
 
-        const docFilePath = path.join(lessonPlansDir, `${topic}.docx`);
+        const docFilePath = path.join(LessonPlansTemp, `${topic}.docx`);
     const docFile = await createDocument(docFilePath, {
     subject, topic, grade, duration, overviewText, curricularText, factualsText, conceptualText,
     proceduralText, essentialQuestionText, teachingPointText, sequentialActivityText,
