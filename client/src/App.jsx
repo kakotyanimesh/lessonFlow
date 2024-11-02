@@ -15,7 +15,7 @@ import ProtectedRoutes from './components/ProtectedRoutes'
 
 const App = () => {
   return (
-    <div className='font-fontOne bg-[#ddeefa] min-h-screen'>
+    <div className='font-fontOne bg-[#ddeefa] min-h-screen text-[#023a52]'>
       <RecoilRoot>
       <BrowserRouter>
         <Routes>

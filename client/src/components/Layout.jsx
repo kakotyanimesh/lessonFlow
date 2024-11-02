@@ -6,7 +6,7 @@ import { Outlet, useLocation } from 'react-router-dom'
 const Layout = () => {
   const location = useLocation()
 
-  const hidenRouter = ['/dashboard', '/about']
+  const hidenRouter = ['/dashboard']
 
   const shouldhideFooter = hidenRouter.includes(location.pathname)
   // location.pathname => gives us the current route
