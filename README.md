@@ -11,7 +11,7 @@ Alongside my coding journey, I am also pursuing a BSc BEd degree. Part of my BEd
 
 ## Features ✨
 
-- **Made for me and my classmates**:
+- **Built to help me and some of my classmates**:
 
 ##  Acknowledgements 🤝
 This project is based on knowledge acquired up to Week 12 in Harkirat Singh’s cohort.
