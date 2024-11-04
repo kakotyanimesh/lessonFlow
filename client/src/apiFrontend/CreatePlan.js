@@ -8,11 +8,15 @@ const axiosPlan = axios.create({
 
 const genereatePlan =async ({subject, topic, grade, duration}) => {
     try {
+        const username = localStorage.getItem('username')
+        // console.log(username);
+        
         const response = await axiosPlan.post('/createPlan', {
             subject,
             topic,
             grade,
-            duration
+            duration,
+            username
         }, { responseType: 'blob' })
 
         return response

@@ -32,7 +32,8 @@ const signUp = async (req, res ) => {
         const options = {
             httpOnly: true,
             secure : true,
-            // sameSite : 'Strict'
+            sameSite : 'Strict',
+            path : '/'
         }
 
         res.status(200)
@@ -73,7 +74,8 @@ const signIn = async (req, res) => {
         const options = {
             httpOnly : true,
             secure : true,
-            sameSite : 'Strict'
+            sameSite : 'Strict',
+            path : '/'
         }
 
         res.status(200)

@@ -28,7 +28,8 @@ const lessonPlanObject = z.object({
     subject : z.string().min(1, {message : 'subject is required'}),
     topic : z.string().min(1, { message : 'subject is required'}),
     grade : z.number().int({message : 'grade must be a number'}),
-    duration : z.number()
+    duration : z.number(),
+    username : z.string()
 })
 
 

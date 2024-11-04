@@ -21,14 +21,18 @@ const LessonSchema = new Schema({
         type : Number,
         required : true
     },
-    content : {
-        type : String,
-        required : true
-    },
-    creatorId : {
-        type : ObjectId,
-        ref : 'User',
-        required : true
+    // content : {
+    //     type : String,
+    //     required : true
+    // },
+    // creatorId : {
+    //     type : ObjectId,
+    //     ref : 'User',
+    //     required : true
+    // },
+    creatorId: {
+        type: String,  // Changed from ObjectId to String since we're using username and i can't able to figure out how to sent accesstoken from frontend
+        required: true
     }
 }, { timestamps : true})
 

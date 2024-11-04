@@ -11,10 +11,12 @@ const port = 3004
 
 const corsOptions = {
     origin : ['https://lesson-flow.vercel.app', 'http://127.0.0.1:5173'],
-    credentials : true,
-    methods : ['GET', 'PUT', 'POST', 'DELETE'],
-    preflightContinue : false,
-    optionSuccessStatus : 204
+    credentials: true,
+    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+    exposedHeaders: ['Set-Cookie']
 }
 
 app.use(cors(corsOptions))

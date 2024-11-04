@@ -14,7 +14,7 @@ const createUser =async ({email, username, password}) => {
             password
         })
     
-        console.log(response.data);
+        // console.log(response.data);
         
         return response.data
     } catch (error) {
@@ -29,7 +29,7 @@ const logInUser =async ({email, password}) => {
         password
     })
 
-    console.log(response.data);
+    // console.log(response.data);
     
     return response.data
 }

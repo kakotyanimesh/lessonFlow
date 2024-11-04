@@ -12,11 +12,12 @@ const { overview, curricularParagraph, conceptualpart, proceduralpart, factualKn
 
 const createPlan = async (req, res) => {
     const parsedObject = lessonPlanObject.safeParse(req.body)
-    const userId = req.userId
+    // const userId = req.userId
+    
 
     if(!parsedObject.success) return res.status(403).json({msg : `provide valid crediantials`, error : parsedObject.error.errors})
         
-    const { subject, topic, grade, duration } = parsedObject.data
+    const { subject, topic, grade, duration, username } = parsedObject.data
                                
         const overviewPrompt = overview({subject, topic, grade, duration})
         const curricularParaPrompt = curricularParagraph({subject, topic, grade})
@@ -63,7 +64,7 @@ const createPlan = async (req, res) => {
         const summarizationhomeText = summary.response.candidates[0].content.parts[0].text
 
         
-        
+    
        const docFile = await createDocument({subject, topic, grade, duration, overviewText, curricularText, factualsText, conceptualText, proceduralText,essentialQuestionText, teachingPointText, sequentialActivityText, formativeAssesmentText, gptQuestionText, summarizationhomeText})
 
     //    if (fs.existsSync(docFile)) {
@@ -73,6 +74,13 @@ const createPlan = async (req, res) => {
     //     console.log('File does not exist');
     //     // Handle the missing file case
     // }
+    await LessonPlanModel.create({
+        subject : subject,
+        topic : topic,
+        grade : grade,
+        duration : duration,
+        creatorId : username
+    })
 
         res.download(docFile, `${topic}.docx`, (err) => {
             if(err) {
@@ -84,6 +92,7 @@ const createPlan = async (req, res) => {
                 });
             }
         })
+        
         
             
     } catch (error) {
