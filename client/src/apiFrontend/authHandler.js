@@ -4,6 +4,7 @@ import axios from "axios";
 
 const axiosInstancess = axios.create({
     baseURL:'https://lessonflow.onrender.com/api/v1/user'
+    // baseURL:'http://localhost:3004/api/v1/user'
 })
 const createUser =async ({email, username, password}) => {
     try {

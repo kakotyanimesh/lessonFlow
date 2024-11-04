@@ -2,6 +2,7 @@ import axios from "axios";
 
 const axiosPlan = axios.create({
     baseURL:'https://lessonflow.onrender.com/api/v1/lesson'
+    // baseURL: 'http://localhost:3004/api/v1/lesson'
 })
 
 

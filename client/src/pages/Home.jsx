@@ -1,11 +1,23 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { delay, easeIn, easeOut, inView, motion } from 'framer-motion'
 import Button from '../components/Button'
 import EduCtor from '../assets/illustrations/illustrationOne.svg'
 import AITeacher from '../assets/illustrations/aiTeacher.svg'
 import Testimonials from '../components/Testimonials'
+import { useRecoilState } from 'recoil'
+import { userProfileState } from '../recoil/createUser.recoil'
+
 
 const Home = () => {
+  const [userProfile, setUserProfile] = useRecoilState(userProfileState)
+
+  useEffect(() => {
+    const username = localStorage.getItem('username')
+    if(username) setUserProfile(true)
+  
+  }, [])
+  
+
   const headerAnimation = {
     initial : {opacity : 0, y : -20},
     inView : {opacity : 1, y: 0, transition : {duration : 1, ease: "easeOut"}}
@@ -18,7 +30,10 @@ const Home = () => {
     <div className='text-center sm:pt-48 sm:mt-7 mt-20 pb-32'>
       <motion.div variants={headerAnimation} initial='initial' whileInView='inView' className='sm:px-20 px-10  overflow-hidden'>
         <h1 className='sm:text-[64px] text-[24px]'>Streamline Your <span className='bg-gradient-to-r from-cyan-500 to-blue-700 bg-clip-text text-transparent'>Lessons</span>, Empower Your <br /> <span className='bg-gradient-to-r from-cyan-500 to-blue-700 bg-clip-text text-transparent'>Teaching</span></h1>
-        <Button className='mt-10' prop={"Get started"} link='/auth/signin'  />
+        {
+          !userProfile ? <Button className='mt-10' prop={"Get started"} link='/auth/signin'  /> :
+          <Button className='mt-10' prop={"Create Lesson Plan"} link='/dashboard'  />
+        }
       </motion.div>
     <motion.div initial="initial" whileInView="inView" variants={cardFrammer} className='grid sm:grid-cols-2 mt-28 sm:mx-10 mx-5 gap-10'>
         <div className='flex sm:flex-row flex-col justify-center items-center bg-gradient-to-b from-blue-300 via-blue-200 to-[#ddeefa]  rounded-xl sm:gap-10 pb-4 sm:pb-0'>
